@@ -1,19 +1,14 @@
-import { useState } from 'react';
-
 // styles
-import styles from './TaskItem.module.css';
+import styles from './TaskItem.module.css'
 
 // Library imports
-import { CheckIcon  } from '@heroicons/react/24/outline';
-import { PencilSquareIcon  } from '@heroicons/react/24/outline';
-import { TrashIcon } from '@heroicons/react/24/outline';
+import { CheckIcon  } from '@heroicons/react/24/outline'
+import { PencilSquareIcon  } from '@heroicons/react/24/outline'
+import { TrashIcon } from '@heroicons/react/24/outline'
 
 const TaskItem = ({ task, deleteTask, toggleTask, enterEditMode }) => {
-  const [isChecked, setIsChecked ] = useState(task.checked);
-
   const handleCheckboxChange = (e) =>{
-    setIsChecked(!isChecked);
-    toggleTask(task.id);
+    toggleTask({ id: task.id, is_checked: !task.is_checked })
   }
 
   return (
@@ -22,16 +17,16 @@ const TaskItem = ({ task, deleteTask, toggleTask, enterEditMode }) => {
         <input
           type="checkbox"
           className={styles.checkbox}
-          checked={isChecked}
+          checked={task.is_checked}
           onChange={handleCheckboxChange}
-          name={task.name}
+          name={task.title}
           id={task.id}
         />
         <label
           htmlFor={task.id}
           className={styles.label}
         >
-          {task.name} - {task.description}
+          {task.title} - {task.description}
           <p className={styles.checkmark}>
             <CheckIcon strokeWidth={2} width={24} height={24}/>
           </p>
@@ -40,7 +35,7 @@ const TaskItem = ({ task, deleteTask, toggleTask, enterEditMode }) => {
       <div className={styles["task-group"]}>
         <button
           className='btn'
-          aria-label={`Update ${task.name} Task`}
+          aria-label={`Update ${task.title} Task`}
           onClick={() => enterEditMode(task)}
         >
           <PencilSquareIcon width={24} height={24} />
@@ -48,7 +43,7 @@ const TaskItem = ({ task, deleteTask, toggleTask, enterEditMode }) => {
 
         <button
           className={`btn ${styles.delete}`}
-          aria-label={`Delete ${task.name} Task`}
+          aria-label={`Delete ${task.title} Task`}
           onClick={() => deleteTask(task.id)}
         >
           <TrashIcon width={24} height={24} />
@@ -58,4 +53,5 @@ const TaskItem = ({ task, deleteTask, toggleTask, enterEditMode }) => {
     </li>
   )
 }
+
 export default TaskItem
